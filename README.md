@@ -1,2 +1,1 @@
-# treetracker-blockchain-demo
-create a complete frontend code repository for TreeTracker Demo Web App using React with Keycloak for authentication, including user registration, login, and tree image upload functionality with location and timestamp. The app will be a single-page application (SPA) using modern React with TypeScript, Tailwind CSS for styling, and Keycloak's JavaScript adapter for authentication.
+TreeTracker Frontend Demo App.
