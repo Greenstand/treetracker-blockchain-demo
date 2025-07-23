@@ -21,15 +21,15 @@ jobs:
         node-version: 18
 
     - name: Install frontend dependencies
-      working-directory: ./frontend  # change if your Vite project is not in frontend/
+      working-directory: ./
       run: npm install
 
     - name: Build frontend
-      working-directory: ./frontend
+      working-directory: ./
       run: npm run build
 
     - name: Start frontend app
-      working-directory: ./frontend
+      working-directory: ./
       run: |
         nohup npm run preview -- --host > vite.log 2>&1 &
         sleep 5
