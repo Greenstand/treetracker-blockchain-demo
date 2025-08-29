@@ -1,6 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import keycloak from "../auth/keycloak";
 
 export default function TreeUploadPage() {
   const [image, setImage] = useState<File | null>(null);
@@ -10,7 +8,6 @@ export default function TreeUploadPage() {
   const [isRequestingLocation, setIsRequestingLocation] = useState(false);
   const [locationPermission, setLocationPermission] = useState<PermissionState | null>(null);
   
-  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Check location permission status
@@ -25,18 +22,12 @@ export default function TreeUploadPage() {
     }
   }, []);
 
-  const handleLogout = () => {
-    // Keycloak logout with redirect
-    if (keycloak) {
-      keycloak.logout({
-        redirectUri: window.location.origin // or your Keycloak logout redirect URL
-      });
-    } else {
-      console.error("Keycloak instance not available");
-      navigate("/"); // Fallback redirect
-    }
-    };
-    
+const handleLogout = () => {
+  localStorage.removeItem("tokens");
+  sessionStorage.removeItem("tokens");
+  window.location.reload(); // forces App.tsx to re-check tokens and show LoginPage
+};
+
   const handleFileTrigger = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
