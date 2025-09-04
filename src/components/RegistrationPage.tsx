@@ -1,9 +1,10 @@
+// src/pages/RegistrationPage.tsx
 import { useState } from "react";
-import { registerUserBackend, loginWithPassword } from "../auth/keycloakService";
+import { registerUserFrontend as registerUser } from "../auth/keycloakService";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Message } from "primereact/message";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ProgressSpinner } from "primereact/progressspinner";
 
 export default function RegistrationPage() {
@@ -15,7 +16,6 @@ export default function RegistrationPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
 
   const handleRegister = async () => {
     setError(null);
@@ -42,20 +42,24 @@ export default function RegistrationPage() {
 
     setLoading(true);
     try {
-      // Create the user directly in Keycloak
-      await registerUserBackend(email, password, firstName, lastName);
+      await registerUser(email, password, firstName, lastName);
 
-      // Try login with the new credentials
-      const tokens = await loginWithPassword(email, password);
-
-      localStorage.setItem("tokens", JSON.stringify(tokens));
       setSuccess(true);
+      setError(null);
 
-      // Redirect after short delay
-      setTimeout(() => navigate("/upload"), 1500);
-    } catch (err) {
+      // Clear form
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    } catch (err: unknown) {
       console.error("Registration error:", err);
-      setError("Registration failed");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Registration failed");
+      }
     } finally {
       setLoading(false);
     }
@@ -67,7 +71,9 @@ export default function RegistrationPage() {
       style={{ backgroundImage: "url('/images/forest.jpg')" }}
     >
       <div className="bg-black bg-opacity-80 p-8 rounded-2xl shadow-lg text-center w-96">
-        <h1 className="mb-6 text-2xl font-bold text-white">Create Your Account</h1>
+        <h1 className="mb-6 text-2xl font-bold text-white">
+          Create Your Account
+        </h1>
 
         <div className="mb-6 flex flex-col gap-4">
           <InputText
@@ -106,7 +112,7 @@ export default function RegistrationPage() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             disabled={loading}
             className="w-full p-3"
-            onKeyPress={(e) => e.key === "Enter" && handleRegister()}
+            onKeyDown={(e) => e.key === "Enter" && handleRegister()}
           />
         </div>
 
@@ -120,13 +126,13 @@ export default function RegistrationPage() {
         {success && (
           <Message
             severity="success"
-            text="Registration successful! Redirecting..."
+            text="Registration successful! Please check your email to verify your account."
             className="w-full mb-3 justify-start"
           />
         )}
 
         {loading ? (
-          <div className="card flex justify-content-center mb-4">
+          <div className="flex justify-center mb-4">
             <ProgressSpinner
               style={{ width: "40px", height: "40px" }}
               strokeWidth="4"
