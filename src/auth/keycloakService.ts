@@ -1,7 +1,7 @@
 // src/auth/keycloakService.ts
-const KEYCLOAK_BASE_URL = process.env.KEYCLOAK_BASE_URL as string;
-const KEYCLOAK_REALM = process.env.KEYCLOAK_REALM as string;
-const KEYCLOAK_CLIENT_ID = process.env.KEYCLOAK_CLIENT_ID as string;
+const KEYCLOAK_BASE_URL = import.meta.env.VITE_KEYCLOAK_BASE_URL;
+const KEYCLOAK_REALM = import.meta.env.VITE_KEYCLOAK_REALM;
+const KEYCLOAK_CLIENT_ID = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 export async function registerUserFrontend(
   email: string,
