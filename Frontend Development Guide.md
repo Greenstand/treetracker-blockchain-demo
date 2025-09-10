@@ -12,8 +12,8 @@ This guide provides frontend developers with everything needed to integrate with
 ## 🏗️ Current Frontend Infrastructure
 
 ### Deployed Services
-- **Frontend Service**: `treetracker-frontend` (Production)
-- **Test Environment**: `treetracker-frontend-test`
+- **Frontend Service**: `frontend` (Production)
+- **Test Environment**: `frontend-test`
 - **Access URLs**: 
   - Production: http://XXX.XX.XX.XXX:X0XXX
   - Test: http://XXX.XX.XX.XXX:X0XXX
@@ -23,7 +23,7 @@ This guide provides frontend developers with everything needed to integrate with
 ```yaml
 REACT_APP_ENVIRONMENT: kubernetes
 REACT_APP_KEYCLOAK_URL: http://XXX.XX.XX.XXX:X0XXX/keycloak
-REACT_APP_KEYCLOAK_REALM: treetracker
+REACT_APP_KEYCLOAK_REALM: realm-name
 REACT_APP_KEYCLOAK_CLIENT_ID: treetracker-blockchain-auth
 REACT_APP_BLOCKCHAIN_AUTH_URL: http://XXX.XX.XX.XXX:X0XXX
 REACT_APP_API_URL: /api
