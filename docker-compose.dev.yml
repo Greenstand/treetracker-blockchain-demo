@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  treetracker-web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+      - NEXT_PUBLIC_HYPERLEDGER_ENDPOINT=http://localhost:3001
+      - NEXT_PUBLIC_MAP_DEFAULT_LAT=0.0236
+      - NEXT_PUBLIC_MAP_DEFAULT_LNG=37.9062
+      - NEXT_PUBLIC_MAP_DEFAULT_ZOOM=6
+      - NEXT_PUBLIC_APP_NAME=TreeTracker
+      - NEXT_PUBLIC_OFFLINE_MODE=true
+      - WATCHPACK_POLLING=true
+    networks:
+      - treetracker-network
+
+networks:
+  treetracker-network:
+    driver: bridge

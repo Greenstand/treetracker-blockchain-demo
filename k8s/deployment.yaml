@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: treetracker-web
+  namespace: treetracker-webapp-mvp
+  labels:
+    app: treetracker-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: treetracker-web
+  template:
+    metadata:
+      labels:
+        app: treetracker-web
+    spec:
+      imagePullSecrets:
+      - name: registry-treetracker-registry
+      containers:
+      - name: treetracker-web
+        image: registry.digitalocean.com/treetracker-registry/treetracker-web:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: NEXT_PUBLIC_API_URL
+          value: "http://159.89.146.66:30001/api/v1"
+        - name: NEXT_PUBLIC_HYPERLEDGER_ENDPOINT
+          value: "http://localhost:3001"
+        - name: NEXT_PUBLIC_MAP_DEFAULT_LAT
+          value: "0.0236"
+        - name: NEXT_PUBLIC_MAP_DEFAULT_LNG
+          value: "37.9062"
+        - name: NEXT_PUBLIC_MAP_DEFAULT_ZOOM
+          value: "6"
+        - name: NEXT_PUBLIC_APP_NAME
+          value: "TreeTracker"
+        - name: NEXT_PUBLIC_OFFLINE_MODE
+          value: "true"
+        - name: PORT
+          value: "3000"
+        - name: HOSTNAME
+          value: "0.0.0.0"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: treetracker-web-config
+  namespace: treetracker-webapp-mvp
+data:
+  NODE_ENV: "production"
+  NEXT_PUBLIC_API_URL: "http://localhost:8000/api"
+  NEXT_PUBLIC_HYPERLEDGER_ENDPOINT: "http://localhost:3001"
+  NEXT_PUBLIC_MAP_DEFAULT_LAT: "0.0236"
+  NEXT_PUBLIC_MAP_DEFAULT_LNG: "37.9062"
+  NEXT_PUBLIC_MAP_DEFAULT_ZOOM: "6"
+  NEXT_PUBLIC_APP_NAME: "TreeTracker"
+  NEXT_PUBLIC_OFFLINE_MODE: "true"
+  PORT: "3000"
+  HOSTNAME: "0.0.0.0"
